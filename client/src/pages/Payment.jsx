@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { CartContext } from "../context/CartContext"
 import { useLocation, useNavigate } from "react-router-dom"
+import API from "../services/api"
 
 function Payment() {
 
@@ -36,15 +37,31 @@ const [deliveryDate,setDeliveryDate] = useState("")
 
 const [deliverySlot,setDeliverySlot] = useState("")
 
-/* ADDED: SERVICE AREAS */
+/* 🏛️ DYNAMIC SERVICE AREAS */
 
-const serviceAreas = [
-"Bangalore",
-"Mysore",
-"Hyderabad",
-"Chennai",
-"Pune"
-]
+const [serviceAreas, setServiceAreas] = useState([])
+const [selectedArea, setSelectedArea] = useState(null)
+
+useEffect(() => {
+    const fetchAreas = async () => {
+        try {
+            const res = await API.get("/admin/service-areas")
+            if (res.data.success) {
+                // Only show active areas
+                setServiceAreas(res.data.data.filter(a => a.isActive))
+            }
+        } catch (err) {
+            console.error("Failed to fetch service areas:", err)
+        }
+    }
+    fetchAreas()
+}, [])
+
+const handleCityChange = (cityName) => {
+    const area = serviceAreas.find(a => a.name === cityName)
+    setSelectedArea(area)
+    setAddress({ ...address, city: cityName })
+}
 
 /* PRICE CALCULATION */
 
@@ -85,7 +102,8 @@ return sum + (monthly * selectedTenure)
 
 const deposit = items.reduce((sum,item)=> sum + (item.deposit || 0),0)
 
-const delivery = items.reduce((sum,item)=> sum + (item.deliveryCharge || 0),0)
+/* ⚡ DYNAMIC DELIVERY CHARGE */
+const delivery = selectedArea ? selectedArea.deliveryCharge : 0
 
 const totalPayable = rentalTotal + deposit + delivery
 
@@ -93,8 +111,8 @@ const totalPayable = rentalTotal + deposit + delivery
 
 const handlePayment = async () => {
 
-if(!address.name || !address.phone || !address.street){
-alert("Please enter delivery address")
+if(!address.name || !address.phone || !address.street || !address.city){
+alert("Please complete the delivery address")
 return
 }
 
@@ -105,7 +123,7 @@ return
 
 /* ADDED: SERVICE AREA VALIDATION */
 
-if(!serviceAreas.includes(address.city)){
+if(!selectedArea){
 alert("Sorry! Delivery is available only in selected service areas.")
 return
 }
@@ -300,12 +318,18 @@ className="border p-2 w-full mb-2 rounded"
 onChange={(e)=>setAddress({...address,street:e.target.value})}
 />
 
-<input
-type="text"
-placeholder="City"
-className="border p-2 w-full mb-2 rounded"
-onChange={(e)=>setAddress({...address,city:e.target.value})}
-/>
+<select
+  className="border p-2 w-full mb-2 rounded bg-white"
+  value={address.city}
+  onChange={(e) => handleCityChange(e.target.value)}
+>
+  <option value="">Select city (Service Area)</option>
+  {serviceAreas.map((area) => (
+    <option key={area._id} value={area.name}>
+      {area.name}
+    </option>
+  ))}
+</select>
 
 <input
 type="text"
