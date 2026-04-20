@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react"
 import API from "../services/api"
-import Navbar from "../components/Navbar"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../context/AuthContext"
 
@@ -38,8 +37,6 @@ return(
 
 <div>
 
-{!isDashboard && <Navbar/>}
-
 <div className="p-10 text-gray-500">
 Loading orders...
 </div>
@@ -52,7 +49,6 @@ Loading orders...
 
   return (
     <div>
-      {!isDashboard && <Navbar/>}
       <div className="max-w-6xl mx-auto p-10">
         <h1 className="text-3xl font-bold mb-8">My Orders</h1>
         {orders.length === 0 ? (

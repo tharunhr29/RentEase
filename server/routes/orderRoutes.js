@@ -5,7 +5,7 @@ const router = express.Router()
 const orderController = require("../controllers/orderController")
 
 // MIDDLEWARE
-const verifyToken = require("../middleware/authMiddleware")
+const { verifyToken } = require("../middleware/authMiddleware")
 const { isAdmin } = require("../middleware/adminMiddleware")
 
 // =====================================================

@@ -40,6 +40,7 @@ import AdminLogistics from "./pages/admin/AdminLogistics";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminClaims from "./pages/admin/AdminClaims";
 import AdminLocations from "./pages/admin/AdminLocations";
+import AdminReviews from "./pages/admin/AdminReviews";
 import AdminLayout from "./components/AdminLayout";
 
 function App() {
@@ -99,6 +100,7 @@ function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="claims" element={<AdminClaims />} />
           <Route path="locations" element={<AdminLocations />} />
+          <Route path="reviews" element={<AdminReviews />} />
         </Route>
 
         {/* PAYMENT */}

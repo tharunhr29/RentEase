@@ -167,11 +167,8 @@ const extraProductSchema = new mongoose.Schema({
 // =====================================================
 // 🔥 AUTO UPDATE STOCK STATUS
 // =====================================================
-productSchema.pre("save", function (next) {
-
+productSchema.pre("save", async function () {
   this.isOutOfStock = this.availableStock <= 0
-  next()
-
 })
 
 

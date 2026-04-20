@@ -52,12 +52,6 @@ function Navbar() {
         {/* 🔥 AUTH SECTION */}
         {user ? (
           <>
-            {/* ADMIN - Only show if NOT on user dashboard and NOT on admin page */}
-            {user.role === "admin" && !isAdminPage && location.pathname !== "/dashboard" && (
-              <Link to="/admin" className="hover:text-gray-300 transition">
-                Admin Panel
-              </Link>
-            )}
 
             {/* USER */}
             {!isAdminPage && (

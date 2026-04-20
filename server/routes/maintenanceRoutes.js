@@ -2,7 +2,7 @@ const router = require("express").Router()
 
 const controller = require("../controllers/maintenanceController")
 
-const verifyToken = require("../middleware/authMiddleware")
+const { verifyToken } = require("../middleware/authMiddleware")
 const { isAdmin } = require("../middleware/adminMiddleware")
 
 router.post("/", verifyToken, controller.createRequest)

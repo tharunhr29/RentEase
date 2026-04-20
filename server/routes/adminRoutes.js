@@ -9,9 +9,10 @@ const { sendEmail } = require("../utils/sendEmail")
 const adminUserController = require("../controllers/adminUserController")
 const claimController = require("../controllers/claimController")
 const serviceAreaController = require("../controllers/serviceAreaController")
+const reviewController = require("../controllers/reviewController")
 
 // MIDDLEWARE
-const verifyToken = require("../middleware/authMiddleware")
+const { verifyToken } = require("../middleware/authMiddleware")
 const { isAdmin } = require("../middleware/adminMiddleware")
 
 // ===============================
@@ -351,5 +352,11 @@ router.put("/service-areas/:id/toggle", verifyToken, isAdmin, serviceAreaControl
 router.get("/claims", verifyToken, isAdmin, claimController.getAllClaims)
 router.post("/claims", verifyToken, isAdmin, claimController.createClaim)
 router.put("/claims/:id", verifyToken, isAdmin, claimController.updateClaimStatus)
+
+// =====================================================
+// ⭐ REVIEW MODERATION
+// =====================================================
+router.get("/reviews", verifyToken, isAdmin, reviewController.getAllReviews)
+router.delete("/reviews/:productId/:reviewId", verifyToken, isAdmin, reviewController.deleteReview)
 
 module.exports = router

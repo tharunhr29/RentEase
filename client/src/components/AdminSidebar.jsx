@@ -12,6 +12,7 @@ function AdminSidebar() {
     { name: "Claims & Disputes", path: "/admin/claims", icon: "⚖️" },
     { name: "Service areas", path: "/admin/locations", icon: "📍" },
     { name: "Orders", path: "/admin/orders", icon: "🧾" },
+    { name: "Customer Reviews", path: "/admin/reviews", icon: "💬" },
   ]
 
   return (
